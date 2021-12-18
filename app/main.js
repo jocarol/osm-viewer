@@ -37,7 +37,9 @@ const getCanvasFromXML = async(map) => {
 };
 
 const injectCanvasScript = async(htmlCanvaScript) => {
+  console.log("injectCanvasScript");
   const script = document.createElement('script');
+  const mapAnchor = document.getElementById('mapAnchor');
 
   script.setAttribute('type', 'text/javascript');
   script.innerHTML = htmlCanvaScript;
