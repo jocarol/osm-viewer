@@ -66,6 +66,6 @@ export interface RelationTag {
 export interface Way {
     id: string;
     visible: string;
-    nd: any;
-    tag: any;
+    nd: string[];
+    tag: Tag[];
 }

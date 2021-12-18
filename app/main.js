@@ -29,27 +29,32 @@ const getCanvasFromXML = async(map) => {
       },
       body: map
     });
-    const data = await response.text();
-    console.log(data);
+    return await response.text();
   } catch (err) {
     console.log(err);
   }
   // return data;
 };
 
-const addCanvasToDom = async(htmlCanvaString) => {
-  const mapDiv = document.getElementById('map');
+const injectCanvasScript = async(htmlCanvaScript) => {
+  const script = document.createElement('script');
 
-  console.log(mapDiv);
-  console.log(htmlCanvaString);
-  mapDiv.innerHTML = htmlCanvaString;
-}
+  script.setAttribute('type', 'text/javascript');
+  script.innerHTML = htmlCanvaScript;
+  // Remove the div element named "loading" in the DOM
+  document.getElementById('loading').remove();
+  document.body.appendChild(script);
+};
 
 const getCanvas = async() => {
-  const bodyToSend = await getXMLfromServer();
-  const canvasFromXML = await getCanvasFromXML(bodyToSend);
+  try {
+    const payload = await getXMLfromServer();
+    const canvasFromXML = await getCanvasFromXML(payload);
 
-  await addCanvasToDom(canvasFromXML);
+    await injectCanvasScript(canvasFromXML);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 getCanvas()
