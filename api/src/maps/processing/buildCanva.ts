@@ -3,8 +3,10 @@ let scriptBody = ``;
 
 const init = (width, height) => {
   scriptBody = `
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
+  // Initialize the canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const mapAnchor = document.getElementById('mapAnchor');
     canvas.setAttribute('id', 'map');
     canvas.setAttribute('width', '${width}');
     canvas.setAttribute('height', '${height}');
@@ -101,6 +103,5 @@ export const getCanva = (params: CanvaParams) => {
   drawBoundary(boundary, width, height);
   drawBuildings(buildings, width, height, boundary, nodes);
   drawRoads(roads, width, height, boundary, nodes);
-
   return scriptBody;
 }

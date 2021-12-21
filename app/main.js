@@ -1,16 +1,22 @@
 let XML;
 let processedMap
 
+const injectCanvasScript = async(htmlCanvaScript) => {
+  console.log('injecting canvasScript into DOM');
+  const script = document.createElement('script');
+  script.setAttribute('type', 'text/javascript');
+  script.setAttribute('id', 'canvasScript');
+  script.innerHTML = htmlCanvaScript;
+  document.body.appendChild(script);
+};
+
+
 // POST the map.osm file to the server
 // to get the canvas back from the server
 document.getElementById('submit').onclick = async(e) => {
   let myHeaders = new Headers();
 
   e.preventDefault();
-  if (document.getElementById('canvasScript')) {
-    console.log('removing canvasScript from DOM');
-    document.getElementById('canvasScript').remove();
-  }
   myHeaders.append("Content-Type", "application/xml");
   try {
     const response = await fetch('http://localhost:3000/maps', {
@@ -24,17 +30,6 @@ document.getElementById('submit').onclick = async(e) => {
   } catch (err) {
     console.log(err);
   }
-};
-
-const injectCanvasScript = async(htmlCanvaScript) => {
-  console.log('injecting canvasScript into DOM');
-  // console.log(htmlCanvaScript)
-  const script = document.createElement('script');
-
-  script.setAttribute('type', 'text/javascript');
-  script.setAttribute('id', 'canvasScript');
-  script.innerHTML = htmlCanvaScript;
-  document.body.appendChild(script);
 };
 
 document.getElementById('form').onchange = async(e) => {
