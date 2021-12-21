@@ -2,6 +2,10 @@ let XML;
 let processedMap
 
 const injectCanvasScript = async(htmlCanvaScript) => {
+  if (document.getElementById('canvasScript')) {
+    document.getElementById('canvasScript').remove();
+    document.getElementById('canvas').remove();
+  }
   console.log('injecting canvasScript into DOM');
   const script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');

@@ -3,11 +3,11 @@ let scriptBody = ``;
 
 const init = (width, height) => {
   scriptBody = `
-  // Initialize the canvas
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const mapAnchor = document.getElementById('mapAnchor');
-    canvas.setAttribute('id', 'map');
+    // Initialize the canvas
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var mapAnchor = document.getElementById('mapAnchor');
+    canvas.setAttribute('id', 'canvas');
     canvas.setAttribute('width', '${width}');
     canvas.setAttribute('height', '${height}');
     mapAnchor.appendChild(canvas);
