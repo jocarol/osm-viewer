@@ -20,8 +20,10 @@ const injectCanvasScript = async(htmlCanvaScript) => {
 document.getElementById('submit').onclick = async(e) => {
   let myHeaders = new Headers();
 
+  // Clean the form fields
   e.preventDefault();
   myHeaders.append("Content-Type", "application/xml");
+  document.getElementById('submit').disabled = true;
   try {
     const response = await fetch('http://localhost:3000/maps', {
       method: 'POST',
@@ -29,6 +31,7 @@ document.getElementById('submit').onclick = async(e) => {
       headers: myHeaders,
       redirect: 'follow',
     });
+    document.getElementById('form').reset();
     processedMap = await response.text();
     injectCanvasScript(processedMap);
   } catch (err) {
