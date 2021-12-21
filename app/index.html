@@ -6,9 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <!-- Import bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- import the script "main.js" to the index.html -->
 </head>
 
 <body>
@@ -17,18 +15,22 @@
     <p>XML OpenSreetMap map rendering</p>
   </div>
   <!-- Create a centered 800*800 div element -->
-  <div class="container">
-    <div class="row justify-content-center">
-      <div id="mapAnchor"></div>
-      <div id="loading" style="width: 800px; height: 800px;">
-        <img src="https://i.pinimg.com/originals/96/27/ba/9627baf241edb820aa70797c3c2f6320.gif" alt="Loading...">
+  <div class="container justify-content-center" id="container">
+    <!-- Create a form for the user to input a file -->
+    <form class="form-inline justify-content-center pb-4" id="form" onsubmit="drawMap()">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="inputFile" class="sr-only">File</label>
+        <input type="file" class="form-control" id="inputFile" placeholder="File">
       </div>
+      <button type="submit" id="submit" class="btn btn-secondary mb-2" disabled>Submit</button>
+    </form>
+    <div class="row justify-content-center" id="wrapper">
+      <div id="mapAnchor"></div>
     </div>
-
-    <script src="main.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>

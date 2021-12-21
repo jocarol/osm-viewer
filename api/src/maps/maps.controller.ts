@@ -6,9 +6,9 @@ export class MapsController {
   constructor(private readonly mapsService: MapsService) { }
 
   @Post()
-  @Header('content-type', 'application/json')
-  async generate(@Body() reauestBody) {
-    return this.mapsService.generate(reauestBody);
+  @Header('content-type', 'text/html')
+  async generate(@Body() requestBody) {
+    return this.mapsService.generate(requestBody);
   }
 
   @Get()

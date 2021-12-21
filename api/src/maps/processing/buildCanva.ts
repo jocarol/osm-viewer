@@ -3,9 +3,8 @@ let scriptBody = ``;
 
 const init = (width, height) => {
   scriptBody = `
-  // Initialize the canvas
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
     canvas.setAttribute('id', 'map');
     canvas.setAttribute('width', '${width}');
     canvas.setAttribute('height', '${height}');
@@ -14,7 +13,7 @@ const init = (width, height) => {
 }
 
 // Takes the lat and lon of a node and returns the scaled
-// x and y coordinates of the node.
+// x and y coordinates of the node
 const convertToXY = (lat: number, lon: number, width: number, height: number, boundary: Bound) => {
   const { minlat, minlon, maxlat, maxlon } = boundary;
   const x = (lon - minlon) / (maxlon - minlon) * width;
@@ -26,8 +25,6 @@ const drawBoundary = (boundary: Bound, width: number, height: number) => {
   const { minlat, minlon, maxlat, maxlon } = boundary;
   const { x: minX, y: minY } = convertToXY(minlat, minlon, width, height, boundary);
   const { x: maxX, y: maxY } = convertToXY(maxlat, maxlon, width, height, boundary);
-
-  console.log("minX, minY, maxX, maxY", minX, minY, maxX, maxY);
 
   scriptBody += `
   // Draw the boundary
@@ -41,32 +38,17 @@ const drawBoundary = (boundary: Bound, width: number, height: number) => {
     `;
 }
 
-const getArea = (nodes: Node[]) => {
-  const area = nodes.reduce((acc, node) => {
-    const { lat, lon } = node;
-    return acc + lat * lon;
-  }, 0);
-  return area;
-}
-
 const drawBuildings = (buildings: Way[], width: number, height: number, boundary: Bound, nodes: Node[]) => {
-  let maxBuildingArea = 0
-  let maxBuilding: Way
-  // For each building, get its nodes and draw a polygon based on those nodes. Also, get the largest building. and console.log it.
   buildings.forEach((building: Way) => {
     const buildingNodes = building.nd.map((nodeId: string) => {
       const node = nodes.find(node => node.id === nodeId);
       return node;
     });
-    const buildingArea = getArea(buildingNodes);
-    if (buildingArea > maxBuildingArea) {
-      maxBuildingArea = buildingArea;
-      maxBuilding = building;
-    }
     const buildingCoords = buildingNodes.map((node: Node) => {
       const { x, y } = convertToXY(node.lat, node.lon, width, height, boundary);
       return [x, y];
     });
+    
     scriptBody += `
     // Draw building ${building.id}
     ctx.beginPath();
@@ -81,11 +63,9 @@ const drawBuildings = (buildings: Way[], width: number, height: number, boundary
     ctx.lineTo(${buildingCoords[0][0]}, ${buildingCoords[0][1]});
     ctx.stroke();
     `;
-  }
-  );
-  console.log("maxBuildingArea", maxBuildingArea);
-  console.log("maxBuilding", maxBuilding);
+  });
 }
+
 const drawRoads = (roads: Way[], width: number, height: number, boundary: Bound, nodes: Node[]) => {
   // For each road, draw a line based on its nodes.
   roads.forEach((road: Way) => {
@@ -112,29 +92,6 @@ const drawRoads = (roads: Way[], width: number, height: number, boundary: Bound,
     }
   })
 }
-
-
-// const drawRoads = (roads: Way[], width: number, height: number, boundary: Bound, nodes: Node[]) => {
-//   roads.forEach((road: Way) => {
-//     const roadNodes = road.nd.map((nodeId: string) => nodes.find((node: Node) => node.id === nodeId));
-//     const roadNodesXY = roadNodes.map((node: Node) => convertToXY(node.lat, node.lon, width, height, boundary));
-//     scriptBody += `
-//     // Draw the road
-//     ctx.beginPath();
-//     ctx.moveTo(${roadNodesXY[0].x}, ${roadNodesXY[0].y});
-//     `;
-//     roadNodesXY.slice(1).forEach((node: { x: number, y: number }, index: number) => {
-//       scriptBody += `
-//       ctx.lineTo(${node.x}, ${node.y});
-//       `;
-//     });
-//     scriptBody += `
-//     ctx.lineTo(${roadNodesXY[0].x}, ${roadNodesXY[0].y});
-//     ctx.stroke();
-//     `;
-//   });
-// }
-
 
 export const getCanva = (params: CanvaParams) => {
   const { boundary, roads, buildings, nodes } = params;
