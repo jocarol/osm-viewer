@@ -11,10 +11,4 @@ export class MapsController {
     return this.mapsService.generate(requestBody);
   }
 
-  @Get()
-  @Header('content-type', 'text/xml')
-  async getMap() {
-    return this.mapsService.getMap();
-  }
-
 }

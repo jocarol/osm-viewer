@@ -27,7 +27,6 @@ export class MapsService {
       nodes: nodes,
     };
 
-    // return res;
     return getCanva(res);
   }
 }

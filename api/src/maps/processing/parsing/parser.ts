@@ -9,7 +9,6 @@ const parser = (body: any): ParsedData => {
   const boundary = boundsParser(bounds);
   const relations = relationParser(relation);
 
-  // return body
   return { boundary, ways, relations, nodes }
 }
 

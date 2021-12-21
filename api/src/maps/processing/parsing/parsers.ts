@@ -6,7 +6,7 @@ export const nodesParser = (node: any): Node[] => {
     if (element.$) {
       const { id, lat, lon, visible } = element.$;
       if (element.tag) {
-        const nodeTag = element.tag.map(tag => tag.$);
+        const nodeTag = element.tag.map((tag: { $: any; }) => tag.$);
         return ({ id, lat, lon, nodeTag });
       }
       return ({ id, lat, lon, visible });
@@ -24,15 +24,14 @@ export const waysParser = (way: any): Way[] => {
   let nd = [];
   let tag = [];
 
-  return way.map(element => {
+  return way.map((element: { $: { id: any; visible: any; }; nd: any[]; tag: any[]; }) => {
     const { id, visible } = element.$;
 
-    // if (id == "67056563") throw new Error("OK"); 
     if (element.nd) {
-      nd = element.nd.map(nd => nd.$.ref);
+      nd = element.nd.map((nd: { $: { ref: any; }; }) => nd.$.ref);
     }
     if (element.tag) {
-      tag = element.tag.map(tag => tag.$);
+      tag = element.tag.map((tag: { $: any; }) => tag.$);
     }
 
     return ({ id, visible, nd, tag });
@@ -44,12 +43,12 @@ export const relationParser = (relation: any): Relation[] => {
   let relationTag = [];
   let member = [];
 
-  const relations = relation.map(element => {
+  const relations = relation.map((element: { $: { id: any; visible: any; }; member: any[]; tag: any[]; }) => {
     if (element.$) {
       const { id, visible } = element.$;
 
-      member = element.member?.map(member => member.$);
-      relationTag = element.tag?.map(tag => tag.$);
+      member = element.member?.map((member: { $: any; }) => member.$);
+      relationTag = element.tag?.map((tag: { $: any; }) => tag.$);
       return ({ id, visible, relationTag, member });
     }
   });
@@ -82,22 +81,10 @@ export const getBuildings = (parsedData: ParsedData) => {
   })
   return buildings;
 }
-//   const { relations } = parsedData;
-//   const buildings = relations.map(relation => {
-//     if (relation.relationTag?.find(tag => tag.k === 'building')) {
-//       return relation;
-//     }
-//   });
-//   // Strip the null values from the buildings array
-//   return buildings.filter(building => building);
-// }
 
 export const getRoads = (parsedData: ParsedData): Way[] => {
-  //@ts-ignore
-  // console.log(parsedData.way)
   const getRoads = parsedData.ways.filter(
     (way) => {
-      // console.log(way)
       return way.tag.find((tag) => tag.k === 'highway')
     },
   );

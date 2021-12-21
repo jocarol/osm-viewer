@@ -103,5 +103,6 @@ export const getCanva = (params: CanvaParams) => {
   drawBoundary(boundary, width, height);
   drawBuildings(buildings, width, height, boundary, nodes);
   drawRoads(roads, width, height, boundary, nodes);
+  
   return scriptBody;
 }
